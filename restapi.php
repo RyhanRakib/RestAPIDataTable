@@ -64,15 +64,8 @@ function get_posts_via_rest() {
 			$allposts .= '<a href="' . esc_url( $post->link ) . '" target=\"_blank\">' . esc_html( $post->title->rendered ) . '</a>  ' . esc_html( $fordate ) . '<br />';
 		}
 
-		echo '<table id="example">
-   				 <thead>
-       				 <th>ID</th>
-        			<th>Title</th>
-   				 </thead>
-    			<tbody></tbody>
-			</table>'.'<br/>';
+		include_once( 'template/table.php' );
 
-		
 		return $allposts;
 	}
 
