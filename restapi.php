@@ -2,10 +2,10 @@
 /**
  * Plugin Name:  Get Posts via REST API
  * Description:  Gets the latest two posts from a blog via the REST API. Blog link, title and date included.
- * Plugin URI:   https://umbaktechnologies.com/
- * Author:       Rene Morozowich
+ * Plugin URI:   https://ryhanrakib.com/
+ * Author:       Ryhan Rakib
  * Version:      1.0
- * Text Domain:  umbaktechnologies
+ * Text Domain:  ryhanrakib
  * License:      GPL v2 or later
  * License URI:  https://www.gnu.org/licenses/gpl-2.0.txt
  *
@@ -35,7 +35,7 @@ function get_posts_via_rest() {
 	$allposts = '';
 	
 	// Enter the name of your blog here followed by /wp-json/wp/v2/posts and add filters like this one that limits the result to 2 posts.
-	$response = wp_remote_get( 'http://localhost/restapi/wp-json/wp/v2/posts?per_page=2' );
+	$response = wp_remote_get( 'http://localhost/restapi/wp-json/wp/v2/posts?per_page=-1' );
 
 	// Exit if error.
 	if ( is_wp_error( $response ) ) {
