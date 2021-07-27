@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:  Get Posts via REST API
- * Description:  Get Posts via Rest API in a table using with jQuery Data Table.
+ * Description:  Get Posts via Rest API in a table using with jQuery Data.
  * Plugin URI:   https://ryhanrakib.com/
  * Author:       Ryhan Rakib
  * Version:      1.0
@@ -11,6 +11,7 @@
  *
  * @package umbaktech
  */
+
 
 // Disable direct file access.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -26,6 +27,8 @@ add_action('wp_enqueue_scripts','data_table_css_init');
 function data_table_css_init() {
     wp_enqueue_script( 'data_table_css', plugins_url( '/css/data_table.min.css', __FILE__ ));
 }
+include_once('laf-cpt.php');
+
 /**
  * Get posts via REST API.
  */
@@ -33,9 +36,9 @@ function get_posts_via_rest() {
 
 	// Initialize variable.
 	$allposts = '';
-	
+
 	// Enter the name of your blog here followed by /wp-json/wp/v2/posts and add filters like this one that limits the result to 2 posts.
-	$response = wp_remote_get( 'http://localhost/restapi/wp-json/wp/v2/posts?per_page=-1' );
+	$response = wp_remote_get( 'http://localhost/restapi/wp-json/wp/v2/posts?per_page=2' );
 
 	// Exit if error.
 	if ( is_wp_error( $response ) ) {
@@ -63,8 +66,9 @@ function get_posts_via_rest() {
 			// Show a linked title and post date.
 			$allposts .= '<a href="' . esc_url( $post->link ) . '" target=\"_blank\">' . esc_html( $post->title->rendered ) . '</a>  ' . esc_html( $fordate ) . '<br />';
 		}
-
 		include_once( 'template/table.php' );
+
+
 
 		return $allposts;
 	}
@@ -74,4 +78,4 @@ function get_posts_via_rest() {
 
 }
 // Register as a shortcode to be used on the site.
-add_shortcode( 'sc_get_posts_via_rest', 'get_posts_via_rest' );
+add_shortcode( 'sc_get_posts_via_rest', 'get_posts_via_rest' ); 
