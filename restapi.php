@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:  Get Posts via REST API
- * Description:  Gets the latest two posts from a blog via the REST API. Blog link, title and date included.
+ * Description:  Get Posts via Rest API in a table using with jQuery Data Table.
  * Plugin URI:   https://ryhanrakib.com/
  * Author:       Ryhan Rakib
  * Version:      1.0
