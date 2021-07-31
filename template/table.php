@@ -5,48 +5,73 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
-<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css">
 <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
 
  
 <script>
-$(document).ready( function () {
-    $('#example').DataTable();
-} );
 
-$(document).ready(function() {
-    $('#example').DataTable( {
-        initComplete: function () {
-            this.api().columns().every( function () {
-                var column = this;
-                var select = $('<select><option value=""></option></select>')
-                    .appendTo( $(column.footer()).empty() )
-                    .on( 'change', function () {
-                        var val = $.fn.dataTable.util.escapeRegex(
-                            $(this).val()
-                        );
- 
-                        column
-                            .search( val ? '^'+val+'$' : '', true, false )
-                            .draw();
-                    } );
- 
-                column.data().unique().sort().each( function ( d, j ) {
-                    select.append( '<option value="'+d+'">'+d+'</option>' )
-                } );
-            } );
+$(document).ready( function () {
+    $('#filterTable').DataTable();
+
+     var table = $('#filterTable').DataTable();
+
+      //Take the category filter drop down and append it to the datatables_filter div. 
+      //You can use this same idea to move the filter anywhere withing the datatable that you want.
+      $("#filterTable_filter.dataTables_filter").append($("#categoryFilter"));
+      
+      //Get the column index for the Category column to be used in the method below ($.fn.dataTable.ext.search.push)
+      //This tells datatables what column to filter on when a user selects a value from the dropdown.
+      //It's important that the text used here (Category) is the same for used in the header of the column to filter
+      var categoryIndex = 0;
+      $("#filterTable th").each(function (i) {
+        if ($($(this)).html() == "Title") {
+          categoryIndex = i; return false;
         }
-    } );
+      });
+      //Use the built in datatables API to filter the existing rows by the Category column
+      $.fn.dataTable.ext.search.push(
+        function (settings, data, dataIndex) {
+          var selectedItem = $('#categoryFilter').val()
+          //console.log(selectedItem);
+          //console.log(typeof 'selectedItem');
+          var category = data[categoryIndex];
+          console.log(category);
+          if (selectedItem === "" || category.includes(selectedItem)) {
+            return true;
+          }
+          return false;
+        }
+      );
+      //Set the change event for the Category Filter dropdown to redraw the datatable each time
+      //a user selects a new filter.
+      $("#categoryFilter").change(function (e) {
+        table.draw();
+      });
+      table.draw();
 } );
 
 </script>
-<table id="example">
+
+
+   <div class="category-filter">
+      <select id="categoryFilter" class="form-control">
+        <option value="">Show All</option>
+        <option value="BLACK">BLACK</option>
+        <option value="Blue">Blue</option>
+        <option value="White">White</option>
+      </select>
+    </div>
+
+
+    <!-- Set up the datatable -->
+    <table class="table" id="filterTable">
 	   	<thead>
 	       	<th>ID</th>
 	        <th>Title</th>
-	        <th>ID</th>
-	        <th>Title</th>
+	        <th></th>
+	        <th></th>
 	   	</thead>
 	<tbody>
 		<tr>
@@ -79,7 +104,7 @@ $(document).ready(function() {
 				Arrival Airport: STN London Stansted
 			</td>
 			<td>
-				Make\Model\Colour: N/A \ N/A \ BLACK
+				Make\Model\Colour: N/A \ N/A \ White
 				Place: 
 				Reference: FF/271525/21
 				Departure Airport: Unknown
@@ -134,4 +159,12 @@ $(document).ready(function() {
 			</td>
 		</tr>
 	</tbody>
+		<tfoot>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </tfoot>
 </table>
