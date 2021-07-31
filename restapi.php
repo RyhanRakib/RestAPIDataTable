@@ -22,13 +22,13 @@ add_action('wp_enqueue_scripts','data_table_js_init');
 function data_table_js_init() {
     wp_enqueue_script( 'data_table_js', plugins_url( '/js/data_table.min.js', __FILE__ ));
 }
+
 add_action('wp_enqueue_scripts','data_table_css_init');
 
 function data_table_css_init() {
     wp_enqueue_script( 'data_table_css', plugins_url( '/css/data_table.min.css', __FILE__ ));
 }
 include_once('laf-cpt.php');
-
 /**
  * Get posts via REST API.
  */
