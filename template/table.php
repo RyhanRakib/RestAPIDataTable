@@ -37,7 +37,7 @@ $(document).ready( function () {
           //console.log(selectedItem);
           //console.log(typeof 'selectedItem');
           var category = data[categoryIndex];
-          console.log(category);
+          //console.log(category);
           if (selectedItem === "" || category.includes(selectedItem)) {
             return true;
           }
